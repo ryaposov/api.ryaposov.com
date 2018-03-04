@@ -6,6 +6,11 @@ module.exports = function(ctx) {
 
 	let projects = require('./routes/projects')(ctx.db)
 
+	router.get('/', function (req, res, next) {
+		res.send('Ok!');
+		next();
+	});
+
 	// Subroutes
 	router.add('/projects', projects);
 

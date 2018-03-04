@@ -2,7 +2,7 @@
   "name": "api.ryaposov.com",
   "version": "1.0.0",
   "description": "REST API for ryaposov.com project",
-  "main": "./src/index.js",
+  "main": "./src/server.js",
   "scripts": {
     "start": "nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,9 +15,7 @@
     "restify": "^6.3.4",
     "restify-router": "^0.5.0",
     "restify-validator": "^0.3.1",
-    "validator": "~>2.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^1.17.1"
+    "validator": "~>2.0.0",
+		"nodemon": "^1.17.1"
   }
 }

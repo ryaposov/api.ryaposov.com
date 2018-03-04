@@ -7,10 +7,12 @@ module.exports = function(db) {
 
 	function all (req, res, next) {
 		// Return all projects
-		db.collection('projects').find().toArray(function(err, items) {
-			res.send(items);
-			next();
-    });
+		db.collection('projects')
+			.find()
+			.toArray((err, items) => {
+				res.send(items);
+				next();
+	    });
 	}
 
 	function byId (req, res, next) {
@@ -26,23 +28,28 @@ module.exports = function(db) {
 		if (validationErrors === null) {
 			// Find project
 			db.collection('projects')
-				.findOne(new ObjectId(req.params.id), (err, item) => {
-					if (item) {
-						res.send(item);
-						next();
-					} else {
-						next(new errs.NotFoundError(
-							'No project with such ID'
-						));
+				.findOne(
+					new ObjectId(req.params.id),
+					(err, item) => {
+						if (item) {
+							res.send(item);
+							next();
+						} else {
+							next(new errs.NotFoundError(
+								'No project with such ID'
+							));
+						}
 					}
-				});
+				);
 		} else {
 			// Validation error
-			next(new errs.NotFoundError(
-				validationErrors.reduce((a, b, i) => {
-					return a + (i != 0 ? '; ' : '') + b.msg
-				}, '')
-			));
+			next(
+				new errs.BadRequestError(
+					validationErrors.reduce((a, b, i) => {
+						return a + (i != 0 ? '; ' : '') + b.msg
+					}, '')
+				)
+			);
 		}
 	}
 
