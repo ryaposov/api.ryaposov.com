@@ -6,7 +6,8 @@
 const config = require('./config'),
 	restify = require('restify'),
 	mongodb = require('mongodb').MongoClient,
-	restifyValidator = require('restify-validator');
+	restifyValidator = require('restify-validator'),
+	corsMiddleware = require('restify-cors-middleware');
 
 /**
  * Initialize Server
@@ -16,9 +17,17 @@ const server = restify.createServer({
   version: config.version
 })
 
+const cors = corsMiddleware({
+  origins: [/^https?:\/\/localhost(:[\d]+)?$/, /^https?:\/\/ryaposov.com(:[\d]+)?$/],
+  allowHeaders: ['API-Token'],
+  exposeHeaders: ['API-Token-Expiry']
+})
+
 /**
  * Bundled Plugins (http://restify.com/#bundled-plugins)
  */
+server.pre(cors.preflight)
+server.use(cors.actual)
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());

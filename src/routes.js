@@ -4,7 +4,8 @@ module.exports = function(ctx) {
 	const Router = require('restify-router').Router;
 	const router = new Router();
 
-	let projects = require('./routes/projects')(ctx.db)
+	let crud = require('./routes/crud')(ctx),
+			projects = require('./routes/crud')(ctx);
 
 	router.get('/', function (req, res, next) {
 		res.send('Ok!');
@@ -12,6 +13,7 @@ module.exports = function(ctx) {
 	});
 
 	// Subroutes
+	router.add('/crud/:collection', crud);
 	router.add('/projects', projects);
 
 	// Aply subroutes routes ro restify

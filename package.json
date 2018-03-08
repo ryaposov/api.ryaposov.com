@@ -12,10 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "mongodb": "^3.0.3",
+    "nodemon": "^1.17.1",
     "restify": "^6.3.4",
+    "restify-cors-middleware": "^1.1.0",
     "restify-router": "^0.5.0",
     "restify-validator": "^0.3.1",
-    "validator": "~>2.0.0",
-		"nodemon": "^1.17.1"
+    "validator": "~>2.0.0"
   }
 }
