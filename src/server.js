@@ -5,6 +5,7 @@
  */
 const config = require('./config'),
 	restify = require('restify'),
+	mongoose = require('mongoose'),
 	mongodb = require('mongodb').MongoClient,
 	restifyValidator = require('restify-validator'),
 	corsMiddleware = require('restify-cors-middleware');
@@ -38,22 +39,19 @@ server.use(restifyValidator);
  */
 
 server.listen(config.port, () => {
-	mongodb.connect(config.db.uri, function(err, database) {
-	  if (err) {
-      console.log('An error occurred while attempting to connect to mongodb', err)
-      process.exit(1)
-    }
-    console.log(
-      '%s v%s ready to accept connections on port %s in %s environment.',
-      server.name,
-      config.version,
-      config.port,
-      config.env
-    )
-
-		// Connecting to database
-		const db = database.db(config.db.database)
-
-    require('./routes')({ db, server })
-	});
+	mongoose.connect(config.db.uri)
+		.then(() => {
+			console.log(
+			  '%s v%s ready to accept connections on port %s in %s environment.',
+			  server.name,
+			  config.version,
+			  config.port,
+			  config.env
+			)
+			require('./routes')({mongoose: mongoose.connection, server })
+		})
+		.catch(err => {
+			console.log('An error occurred while attempting to connect to mongodb', err)
+			process.exit(1)
+		});
 })

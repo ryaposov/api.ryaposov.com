@@ -5,7 +5,8 @@ module.exports = function(ctx) {
 	const router = new Router();
 
 	let crud = require('./routes/crud')(ctx),
-			projects = require('./routes/crud')(ctx);
+			secureCrud = require('./routes/secure-crud')(ctx),
+			user = require('./routes/user')(ctx);
 
 	router.get('/', function (req, res, next) {
 		res.send('Ok!');
@@ -13,8 +14,9 @@ module.exports = function(ctx) {
 	});
 
 	// Subroutes
+	router.add('/user', user);
 	router.add('/crud/:collection', crud);
-	router.add('/projects', projects);
+	router.add('/secure/:collection', secureCrud);
 
 	// Aply subroutes routes ro restify
 	router.applyRoutes(ctx.server);
