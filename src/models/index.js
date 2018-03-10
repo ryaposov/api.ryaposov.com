@@ -1,5 +1,5 @@
-let Project = require('./Project'),
- 		Post = require('./Post');
+let Project = require('./project'),
+ 		Post = require('./post');
 
 module.exports = {
 	projects: Project,
