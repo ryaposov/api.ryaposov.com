@@ -66,7 +66,7 @@ module.exports = function (ctx) {
 
 		if (validationErrors === null) {
 			// Find doc
-			Model.findOne(req.params.id)
+			Model.findOne({ _id: req.params.id })
 				.then(item => {
 					item ? ( res.send(item), next() )
 						: next( new errs.NotFoundError("No doc with such ID") )
