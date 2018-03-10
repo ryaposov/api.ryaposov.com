@@ -7,26 +7,27 @@ module.exports = function (ctx) {
 				bcrypt = require('bcrypt'),
 				Router = require('restify-router').Router,
 				User = require('../models/user'),
-				{ prepareErrors } = require('../helpers');
+				{ prepareErrors } = require('../helpers'),
+				config = require('../config');
 
 	// Router Init
 	const router = new Router();
 
-	// Register user
-	function register (req, res, next) {
-		let newUser = new User(req.body);
-	  newUser.password = bcrypt.hashSync(req.body.password, 10);
-	  newUser.save(function(err, user) {
-	    if (err) {
-	      return res.status(400).send({
-	        message: err
-	      });
-	    } else {
-	      user.password = undefined;
-	      return res.send(user);
-	    }
-	  });
-	}
+	// // Register user
+	// function register (req, res, next) {
+	// 	let newUser = new User(req.body);
+	//   newUser.password = bcrypt.hashSync(req.body.password, 10);
+	//   newUser.save(function(err, user) {
+	//     if (err) {
+	//       return res.status(400).send({
+	//         message: err
+	//       });
+	//     } else {
+	//       user.password = undefined;
+	//       return res.send(user);
+	//     }
+	//   });
+	// }
 
 	// Sign in user
 	function signIn (req, res, next) {
@@ -39,7 +40,7 @@ module.exports = function (ctx) {
 		      if (!user.comparePassword(req.body.password)) {
 						res.send(new errs.ForbiddenError('Authentication failed. Wrong password.'))
 		      } else {
-		        return res.send({token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id}, 'RESTFUL_API')});
+		        return res.send({token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id}, config.key)});
 		      }
 					return next(false)
 		    }
@@ -50,7 +51,7 @@ module.exports = function (ctx) {
 	}
 
 	// List subroutes
-	router.post('/register', register);
+	// router.post('/register', register);
 	router.post('/sign-in', signIn);
 
 	return router;

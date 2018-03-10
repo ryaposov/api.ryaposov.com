@@ -6,7 +6,8 @@ module.exports = function (ctx) {
 				jwt = require('jsonwebtoken'),
 				Router = require('restify-router').Router,
 				Models = require('../models'),
-				{ prepareErrors } = require('../helpers');
+				{ prepareErrors } = require('../helpers'),
+				config = require('../config');
 	// Initializing Model
 	let Model
 
@@ -21,7 +22,7 @@ module.exports = function (ctx) {
 	  // decode token
 	  if (token) {
 	    // verifies secret and checks exp
-	    jwt.verify(token, 'RESTFUL_API', (err, decoded) => {
+	    jwt.verify(token, config.key, (err, decoded) => {
 	      if (err) {
 	        res.send({
 						success: false,
