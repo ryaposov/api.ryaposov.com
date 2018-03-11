@@ -15,9 +15,9 @@ module.exports = function (ctx) {
 
 	async function searchInModel (model, req) {
 		return await model.find(
-			{ $text: {$search: req.query.s} },
-			{ score: {$meta: 'textScore'} }
-		).sort({ score: {$meta:'textScore'} });
+				{ $text: {$search: req.query.s} },
+				{ score: {$meta: 'textScore'} }
+			).sort({ score: {$meta:'textScore'} });
 	}
 
 	async function querySearch (req, res, next, collection = false) {
@@ -26,14 +26,14 @@ module.exports = function (ctx) {
 			return next(false)
 		}
 
-		let results = []
+		let results = {}
 
 		if (collection) {
-			results = await searchInModel(Models[collection], req);
+			results[collection] = await searchInModel(Models[collection], req);
 		} else {
 			let projects = await searchInModel(Models.projects, req);
-			let posts = await searchInModel(Models.post, req);
-			results = [].concat(projects, posts)
+			let posts = await searchInModel(Models.posts, req);
+			results = { projects, posts }
 		}
 
 		res.send(results);
@@ -60,8 +60,8 @@ module.exports = function (ctx) {
 	}
 
 	// List subroutes
-	router.post('/', querySearch);
-	router.post('/:collection/', queryCollectionSearch);
+	router.get('/', querySearch);
+	router.get('/:collection/', queryCollectionSearch);
 
 	return router;
 }
