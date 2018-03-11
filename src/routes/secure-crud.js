@@ -53,9 +53,7 @@ module.exports = function (ctx) {
 		let validationErrors = req.validationErrors()
 
 		// Check we have schema of this collection name
-		let modelExists = Object.keys(Models).some(name => {
-			return name === req.params.collection
-		})
+		let modelExists = req.params.collection in Models
 
 		if (validationErrors === null && modelExists) {
 			// Setting correct model based on collection parameter
@@ -71,6 +69,7 @@ module.exports = function (ctx) {
 
 	// Create doc
 	function create (req, res, next) {
+		console.log(req.body)
 		// Save doc
 		Model(req.body).save(function(err, doc) {
 		  if (err) {

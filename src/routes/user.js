@@ -31,6 +31,12 @@ module.exports = function (ctx) {
 
 	// Sign in user
 	function signIn (req, res, next) {
+		// Validate parameters
+		if (!req.body || !('email' in req.body) || !req.body.email) {
+			res.send(req.body)
+			return next(false)
+		}
+
 		User.findOne({ email: req.body.email})
 			.then(user => {
 		    if (!user) {

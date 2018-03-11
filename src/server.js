@@ -20,8 +20,7 @@ const server = restify.createServer({
 
 const cors = corsMiddleware({
   origins: [/^https?:\/\/localhost(:[\d]+)?$/, /^https?:\/\/ryaposov.com(:[\d]+)?$/],
-  allowHeaders: ['API-Token'],
-  exposeHeaders: ['API-Token-Expiry']
+  allowHeaders: ['Authorization']
 })
 
 /**
