@@ -18,10 +18,12 @@ const server = restify.createServer({
   version: config.version
 })
 
-const cors = corsMiddleware({
-  origins: [/^https?:\/\/localhost(:[\d]+)?$/, /^https?:\/\/ryaposov.com(:[\d]+)?$/],
-  allowHeaders: ['Authorization']
-})
+if (process.env.NODE_ENV !== 'production') {
+	const cors = corsMiddleware({
+		origins: [/^https?:\/\/localhost(:[\d]+)?$/, /^https?:\/\/ryaposov.com(:[\d]+)?$/],
+		allowHeaders: ['Authorization']
+	})
+}
 
 /**
  * Bundled Plugins (http://restify.com/#bundled-plugins)
