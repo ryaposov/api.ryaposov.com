@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('Post', new Schema({
-    title: String,
-    subtitle: String,
+    title: { type: String, default: '' },
+    subtitle: { type: String, default: '' },
     tags: [String],
-		text: String,
-		published: Boolean
+		introtext: { type: String, default: '' },
+		text: { type: String, default: '' },
+		published: { type: Boolean, default: 0 }
 }, { timestamps: true }));

@@ -69,7 +69,6 @@ module.exports = function (ctx) {
 
 	// Create doc
 	function create (req, res, next) {
-		console.log(req.body)
 		// Save doc
 		Model(req.body).save(function(err, doc) {
 		  if (err) {
@@ -165,7 +164,50 @@ module.exports = function (ctx) {
 		}
 	}
 
+	// Get all docs
+	function getAll (req, res, next) {
+		// Return all docs
+		Model.find()
+			.then(items => {
+				res.send(items);
+				next();
+			})
+			.catch(err => {
+				console.log(err)
+			});
+	}
+
+	// Get doc by ID
+	function getById (req, res, next) {
+		// Validate ID parameter
+		req.assert('id', 'Invalid ID parameter')
+			.notEmpty()
+			.len(24, 24)
+			.isAlphanumeric();
+
+		// Get validation errors
+		let validationErrors = req.validationErrors()
+
+		if (validationErrors === null) {
+			// Find doc
+			Model.findOne({ _id: req.params.id })
+				.then(item => {
+					item ? ( res.send(item), next() )
+						: next( new errs.NotFoundError("No doc with such ID") )
+				})
+				.catch(err => {
+					res.send(err);
+				});
+		} else {
+			// Validation error
+			let msg = prepareErrors(validationErrors);
+			next(new errs.BadRequestError(msg))
+		}
+	}
+
 	// List subroutes
+	router.get('/', getAll);
+	router.get('/:id', getById);
 	router.post('/create', create);
 	router.post('/delete', deleteByIds);
 	router.del('/:id', deleteById);

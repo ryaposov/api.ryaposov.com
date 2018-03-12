@@ -43,7 +43,7 @@ module.exports = function (ctx) {
 	// Get all docs
 	function getAll (req, res, next) {
 		// Return all docs
-		Model.find()
+		Model.find({ published: 1 })
 			.then(items => {
 				res.send(items);
 				next();
@@ -66,7 +66,7 @@ module.exports = function (ctx) {
 
 		if (validationErrors === null) {
 			// Find doc
-			Model.findOne({ _id: req.params.id })
+			Model.findOne({ _id: req.params.id, published: 1 })
 				.then(item => {
 					item ? ( res.send(item), next() )
 						: next( new errs.NotFoundError("No doc with such ID") )
