@@ -197,19 +197,27 @@ module.exports = function (ctx) {
 		// Create directory
 		if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
-		// Move file to storage directory
-		fs.rename(file.path, `${dir}/${file.name}`, err => {
-			if (err) next(new errs.BadGatewayError());
-			delete file.path;
+		// Read the file
+    fs.readFile(file.path, (err, data) => {
+      if (err) next(new errs.BadGatewayError(err));
 
-			editFieldById({ image: file.name }, req.params.id)
-				.then(result => {
-					res.send(202, { file, message: 'File uploaded' });
-				})
-				.catch(error => {
-					res.send(202, { file, message: error });
-				})
-		});
+      // Write the file
+      fs.writeFile(`${dir}/${file.name}`, data, (err) => {
+        if (err) next(new errs.BadGatewayError(err));
+				editFieldById({ image: file.name }, req.params.id)
+					.then(result => {
+						res.send(202, { file, message: 'File uploaded' });
+					})
+					.catch(error => {
+						res.send(202, { file, message: error });
+					})
+      });
+
+      // Delete the file
+      fs.unlink(file.path, (err) => {
+        if (err) next(new errs.BadGatewayError(err));
+      });
+    });
 	}
 
 	// List subroutes
