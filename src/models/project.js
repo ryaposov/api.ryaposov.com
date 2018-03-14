@@ -1,13 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Project', new Schema({
+function getCurrentDate (d) {
+	return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+let PorjectSchema = mongoose.model('Project', new Schema({
   title: { type: String, default: '' },
   text: { type: String, default: '' },
 	client: { type: String, default: '' },
+	date: { type: Date, default: getCurrentDate(new Date()) },
   category: [String],
 	goal: { type: String, default: '' },
-	year: { type: Number, default: 2018 },
 	links: [{ type: String, lowercase: true, trim: true }],
 	thumbnail: { type: String, lowercase: true, trim: true, default: '' },
 	image: { type: String, lowercase: true, trim: true, default: '' },
@@ -18,3 +22,5 @@ module.exports = mongoose.model('Project', new Schema({
   },
 	published: { type: Boolean, default: 0 }
 }, { timestamps: true }));
+
+module.exports = PorjectSchema

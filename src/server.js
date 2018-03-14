@@ -19,8 +19,12 @@ const server = restify.createServer({
 })
 
 const cors = corsMiddleware({
-  origins: [/^https?:\/\/localhost(:[\d]+)?$/, /^https?:\/\/ryaposov.com(:[\d]+)?$/, /^https?:\/\/admin.ryaposov.com(:[\d]+)?$/],
-  allowHeaders: ['Authorization']
+	allowHeaders: ['Authorization', 'Cache-Control'],
+  origins: process.env.NODE_ENV === 'production'
+		? [/^https?:\/\/localhost(:[\d]+)?$/,
+				/^https?:\/\/ryaposov.com(:[\d]+)?$/,
+				/^https?:\/\/admin.ryaposov.com(:[\d]+)?$/]
+		: [/^https?:\/\/localhost(:[\d]+)?$/]
 })
 
 /**

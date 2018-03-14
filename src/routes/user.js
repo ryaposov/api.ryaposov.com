@@ -40,23 +40,18 @@ module.exports = function (ctx) {
 		User.findOne({ email: req.body.email })
 			.then(user => {
 		    if (!user) {
-					res.send(new errs.ForbiddenError('Authentication failed. User not found. 1'))
-					return next(false)
-		    } else if (user) {
+					res.send(new errs.ForbiddenError('Authentication failed. User not found.'))
+					next(false)
+		    } else {
 		      if (!user.comparePassword(req.body.password)) {
-						res.send(new errs.ForbiddenError('Authentication failed. User not found. 2'))
+						res.send(new errs.ForbiddenError('Authentication failed. Wrong password. 2'))
 		      } else {
 		        res.send({token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id}, config.key)});
 		      }
-					return next(false)
-		    } else {
-					res.send(new errs.ForbiddenError('Authentication failed. User not found. 3'))
-					return next(false)
-				}
+					next(false)
+		    }
 			})
 			.catch(err => {
-				res.send(new errs.BadRequestError())
-				return next(false)
 				throw err;
 			});
 	}
