@@ -9,6 +9,7 @@ let PorjectSchema = mongoose.model('Project', new Schema({
   title: { type: String, default: '' },
   text: { type: String, default: '' },
 	client: { type: String, default: '' },
+	size: { type: String, default: '' },
 	date: { type: Date, default: getCurrentDate(new Date()) },
   category: [String],
 	goal: { type: String, default: '' },
