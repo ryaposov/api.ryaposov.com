@@ -164,7 +164,9 @@ module.exports = function (ctx) {
 	// Get all docs
 	function getAll(req, res, next) {
 		// Return all docs
-		Model.find().sort({ date: -1 })
+		Model.find().sort({
+				[Model.schema.methods.sortField()]: -1
+			})
 			.then(items => {
 				res.send(items);
 				next();

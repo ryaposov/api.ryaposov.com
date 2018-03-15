@@ -5,7 +5,7 @@ function getCurrentDate (d) {
 	return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
-let PorjectSchema = mongoose.model('Project', new Schema({
+let PorjectSchema = new Schema({
   title: { type: String, default: '' },
   text: { type: String, default: '' },
 	client: { type: String, default: '' },
@@ -22,6 +22,8 @@ let PorjectSchema = mongoose.model('Project', new Schema({
     second: { type: String, default: '#000000' },
   },
 	published: { type: Boolean, default: 0 }
-}, { timestamps: true }));
+}, { timestamps: true });
 
-module.exports = PorjectSchema
+PorjectSchema.methods.sortField = () => ('date')
+
+module.exports = mongoose.model('Project', PorjectSchema);
