@@ -1,9 +1,6 @@
 var mongoose = require('mongoose');
+let { getCurrentDate } = require('../helpers');
 var Schema = mongoose.Schema;
-
-function getCurrentDate (d) {
-	return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-}
 
 let PorjectSchema = new Schema({
   title: { type: String, default: '' },
@@ -14,6 +11,7 @@ let PorjectSchema = new Schema({
   category: [String],
 	goal: { type: String, default: '' },
 	links: [{ type: String, lowercase: true, trim: true }],
+	stack: [{ type: String, trim: true }],
 	thumbnail: { type: String, lowercase: true, trim: true, default: '' },
 	image: { type: String, lowercase: true, trim: true, default: '' },
 	gallery: [{ image: String, caption: String }],

@@ -4,3 +4,7 @@ module.exports.prepareErrors = (validationErrors) => {
 		return a + (i != 0 ? '; ' : '') + b.msg
 	}, '')
 }
+
+module.exports.getCurrentDate = (d) => {
+	return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
