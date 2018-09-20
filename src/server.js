@@ -19,12 +19,11 @@ const server = restify.createServer({
 })
 
 const cors = corsMiddleware({
-	allowHeaders: ['Authorization', 'Cache-Control'],
-  origins: process.env.NODE_ENV === 'production'
-		? [/^https?:\/\/localhost(:[\d]+)?$/,
-				/^https?:\/\/ryaposov.com(:[\d]+)?$/,
-				/^https?:\/\/admin.ryaposov.com(:[\d]+)?$/]
-		: [/^https?:\/\/localhost(:[\d]+)?$/]
+	allowHeaders: [
+		'Authorization',
+		'Cache-Control'
+	],
+  origins: config.allowedOrigins
 })
 
 /**
@@ -40,7 +39,6 @@ server.use(restifyValidator);
 /**
  * Lift Server, Connect to DB & Require Route File
  */
-
 server.listen(config.port, () => {
 	mongoose.connect(config.db.uri)
 		.then(() => {
