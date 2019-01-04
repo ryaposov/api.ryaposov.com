@@ -60,3 +60,5 @@ typings/
 src/config.js
 
 storage
+
+*.sh
