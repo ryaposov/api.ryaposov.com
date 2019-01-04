@@ -5,6 +5,7 @@
   "main": "./src/server.js",
   "scripts": {
     "start": "pm2-runtime src/server.js --watch",
+    "reload": "pm2 reload src/server.js",
     "dev": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
