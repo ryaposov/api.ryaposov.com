@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^3.0",
     "jsonwebtoken": "^8.2.0",
     "mongodb": "^3.0.3",
     "mongoose": "^5.0.9",
