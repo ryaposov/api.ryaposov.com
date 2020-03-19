@@ -2,9 +2,7 @@
   "version": 2,
   "env": {
     "DB_URI": "@ryaposov_api_db_uri",
-    "AUTH_SECRET": "@ryaposov_api_auth_secret",
-    "TELEGRAM_API_KEY": "@ryaposov_api_telegram_api_key",
-    "TELEGRAM_CHAT_ID": "@ryaposov_api_telegram_chat_id"
+    "AUTH_SECRET": "@ryaposov_api_auth_secret"
   },
   "builds": [
     {
