@@ -4,7 +4,7 @@ module.exports = {
   'public': '../public/',
   'paginate': {
     'default': 10,
-    'max': 100
+    'max': 50
   },
   'authentication': {
     'entity': 'user',
