@@ -1,6 +1,6 @@
 module.exports = {
   'host': 'localhost',
-  'port': 3030,
+  'port': 3003,
   'public': '../public/',
   'paginate': {
     'default': 10,
