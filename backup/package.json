@@ -23,7 +23,7 @@
     "restify-router": "^0.5.0",
     "restify-validator": "^0.3.1",
     "uuid": "^3.2.1",
-    "validator": "~>2.0.0"
+    "validator": "~>3.22.1"
   },
   "devDependencies": {
     "pm2": "^2.10.1",
